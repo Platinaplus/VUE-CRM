@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <form class="card auth-card" @submit.prevent="onSubmit">
     <div class="card-content">
@@ -84,8 +83,11 @@ export default {
         email: this.email,
         password: this.password,
       };
-      console.log(formData);
-      this.$router.push("/");
+      try {
+        await this.$store.dispatch("login", formData);
+        this.$router.push("/");
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
     },
   },
 };

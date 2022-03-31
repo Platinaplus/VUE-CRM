@@ -16,7 +16,7 @@
             data-target="dropdown"
             ref="dropdown"
           >
-            USER NAME
+            {{ name }}
             <i class="material-icons right">arrow_drop_down</i>
           </a>
 
@@ -49,8 +49,8 @@ export default {
     dropdown: null,
   }),
   methods: {
-    logout() {
-      console.log("logout");
+    async logout() {
+      await this.$store.dispatch("logout");
       this.$router.push("/login?message=logout");
     },
     formatDate(value, format = "date") {
@@ -68,6 +68,11 @@ export default {
       return new Intl.DateTimeFormat("ru-RU", options).format(new Date(value));
     },
   },
+  computed: {
+    name() {
+      return this.$store.getters.info.name;
+    },
+  },
   mounted() {
     this.interval = setInterval(() => {
       this.date = new Date();
@@ -82,6 +87,5 @@ export default {
       this.dropdown.destroy();
     }
   },
-  computed: {},
 };
 </script>
