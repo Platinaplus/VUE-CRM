@@ -1,13 +1,13 @@
-import * as M from "materialize-css";
+import { toast } from "materialize-css";
 
 export default {
   install(app) {
     app.config.globalProperties.$message = function (html) {
-      M.toast({ html });
+      toast({ html });
     };
 
     app.config.globalProperties.$error = function (html) {
-      M.toast({ html: `[Ошибка]: ${html}` });
+      toast({ html: `[Ошибка]: ${html}` });
     };
   },
 };

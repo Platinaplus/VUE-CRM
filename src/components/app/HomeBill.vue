@@ -6,7 +6,6 @@
 
         <p class="currency-line" v-for="cur of currencies" :key="cur">
           <span>{{ getCurrency(cur) }}</span>
-          <span>{{ cur }}</span>
         </p>
       </div>
     </div>
@@ -28,8 +27,11 @@ export default {
   },
   methods: {
     getCurrency(currency) {
-      console.log(Math.floor(this.base * this.rates[currency]));
-      return Math.floor(this.base * this.rates[currency]);
+      const value = Math.floor(this.base * this.rates[currency]); //пересчитываем то что в счете на все валюты
+      return new Intl.NumberFormat("ru-Ru", {
+        style: "currency",
+        currency,
+      }).format(value);
     },
   },
 };

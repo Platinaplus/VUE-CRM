@@ -6,6 +6,7 @@ import store from "./store";
 import messagePlagin from "./utils/message.plagin";
 import * as M from "materialize-css";
 import CommonLoader from "./components/common/CommonLoader.vue";
+import tooltipDirective from './directives/tooltip.directive';
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize";
 import "@/assets/index.css";
@@ -32,6 +33,7 @@ firebase.auth().onAuthStateChanged(() => {
       .use(router)
       .use(M)
       .use(messagePlagin)
+      .directive('tooltip', tooltipDirective)
       .component("Loader", CommonLoader)
       .mount("#app");
   }
