@@ -207,3 +207,9 @@
 .pagination-link.is-current {
     background-color: #26a69a;
 }
+
+#pie-chart {
+    height: 500px !important;
+    width: 500px !important;
+    margin: 0 auto;
+}
