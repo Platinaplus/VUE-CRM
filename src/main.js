@@ -1,12 +1,15 @@
 import * as Vue from "vue";
 import App from "./App.vue";
+import Pagination from 'v-pagination-3'
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import messagePlagin from "./utils/message.plagin";
+import formatDate from "./utils/date";
 import * as M from "materialize-css";
 import CommonLoader from "./components/common/CommonLoader.vue";
 import tooltipDirective from './directives/tooltip.directive';
+
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize";
 import "@/assets/index.css";
@@ -33,8 +36,10 @@ firebase.auth().onAuthStateChanged(() => {
       .use(router)
       .use(M)
       .use(messagePlagin)
+      .use(formatDate)
       .directive('tooltip', tooltipDirective)
       .component("Loader", CommonLoader)
+      .component('Pagination', Pagination)
       .mount("#app");
   }
 });

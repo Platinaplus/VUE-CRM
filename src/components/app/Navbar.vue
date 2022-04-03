@@ -5,7 +5,7 @@
         <a href="#" @click.prevent="$emit('myClick')">
           <i class="material-icons black-text">dehaze</i>
         </a>
-        <span class="black-text">{{ formatDate(date, "datetime") }}</span>
+        <span class="black-text">{{ $formatDate(date, "datetime") }}</span>
       </div>
 
       <ul class="right hide-on-small-and-down">
@@ -52,20 +52,6 @@ export default {
     async logout() {
       await this.$store.dispatch("logout");
       this.$router.push("/login?message=logout");
-    },
-    formatDate(value, format = "date") {
-      const options = {};
-      if (format.includes("date")) {
-        options.day = "2-digit";
-        options.month = "long";
-        options.year = "numeric";
-      }
-      if (format.includes("time")) {
-        options.hour = "2-digit";
-        options.minute = "2-digit";
-        options.second = "2-digit";
-      }
-      return new Intl.DateTimeFormat("ru-RU", options).format(new Date(value));
     },
   },
   computed: {
