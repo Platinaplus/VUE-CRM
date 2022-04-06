@@ -2,7 +2,7 @@
   <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
-        <h4>Редактировать</h4>
+        <h4>{{ $localize('Cat_Edit') }}</h4>
       </div>
 
       <form @submit.prevent="onSubmit">
@@ -16,7 +16,7 @@
               {{ option.name }}
             </option>
           </select>
-          <label>Выберите категорию</label>
+          <label>{{ $localize('Cat_Choose') }}</label>
         </div>
 
         <div class="input-field">
@@ -26,12 +26,12 @@
             v-model="name"
             :class="{ invalid: v$.name.$error }"
           />
-          <label for="name">Название</label>
+          <label for="name">{{ $localize('Cat_Title') }}</label>
           <span
             class="helper-text invalid"
             v-for="error of v$.name.$errors"
             :key="error.$uid"
-            >Введите название категории</span
+            >{{ $localize('Cat_EnterTitle') }}</span
           >
         </div>
 
@@ -42,7 +42,7 @@
             v-model.number="limit"
             :class="{ invalid: v$.limit.$error }"
           />
-          <label for="limit">Лимит</label>
+          <label for="limit">{{ $localize('Cat_Limit') }}</label>
           <span
             class="helper-text invalid"
             v-for="error of v$.limit.$errors"
@@ -52,7 +52,7 @@
         </div>
 
         <button class="btn waves-effect waves-light" type="submit">
-          Обновить
+          {{ $localize('Submit') }}
           <i class="material-icons right">send</i>
         </button>
       </form>
@@ -61,13 +61,13 @@
 </template>
 
 <script>
-import { FormSelect, updateTextFields } from "materialize-css";
-import useVuelidate from "@vuelidate/core";
-import { required, minValue } from "@vuelidate/validators";
+import { FormSelect, updateTextFields } from 'materialize-css'
+import useVuelidate from '@vuelidate/core'
+import { required, minValue } from '@vuelidate/validators'
 
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    return { v$: useVuelidate() }
   },
   props: {
     options: {
@@ -77,7 +77,7 @@ export default {
   },
   data: () => ({
     select: null,
-    name: "",
+    name: '',
     limit: 1,
     current: null,
   }),
@@ -88,44 +88,44 @@ export default {
   watch: {
     //меняет данные в инпутах в зависимости от выбранного селекта
     current(id) {
-      const { name, limit } = this.options.find((c) => c.id === id);
-      this.name = name;
-      this.limit = limit;
-      this.current = id;
+      const { name, limit } = this.options.find((c) => c.id === id)
+      this.name = name
+      this.limit = limit
+      this.current = id
     },
   },
   created() {
     //сразу показывет первую категорию в списке и ее данные
-    const { id, name, limit } = this.options[0];
-    this.name = name;
-    this.limit = limit;
-    this.current = id;
+    const { id, name, limit } = this.options[0]
+    this.name = name
+    this.limit = limit
+    this.current = id
   },
   mounted() {
-    updateTextFields();
-    this.select = FormSelect.init(this.$refs.select); //селект из материалайза
+    updateTextFields()
+    this.select = FormSelect.init(this.$refs.select) //селект из материалайза
   },
   unmounted() {
     if (this.select && this.select.unmounted) {
-      this.select.unmounted();
+      this.select.unmounted()
     }
   },
   methods: {
     async onSubmit() {
-      const isFormCorrect = await this.v$.$validate();
-      if (!isFormCorrect) return;
+      const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect) return
       const formData = {
         id: this.current,
         name: this.name,
         limit: this.limit,
-      };
+      }
       try {
-        await this.$store.dispatch("updateCategory", formData);
-        this.$message(`Категория успешно изменена`);
-        this.$emit("updated", formData);
+        await this.$store.dispatch('updateCategory', formData)
+        this.$message(`Категория успешно изменена`)
+        this.$emit('updated', formData)
         // eslint-disable-next-line no-empty
       } catch (e) {}
     },
   },
-};
+}
 </script>

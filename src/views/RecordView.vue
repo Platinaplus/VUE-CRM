@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Новая запись</h3>
+      <h3>{{ $localize('NewRecord') }}</h3>
     </div>
     <Loader v-if="loading" />
     <p v-else-if="!categories.length" class="center">
-      Категорий пока нет
-      <router-link to="/categories">Добавьте категории</router-link>
+      {{ $localize('Cat_Message') }}
+      <router-link to="/categories">{{
+        $localize('Cat_Message_Add')
+      }}</router-link>
     </p>
     <form class="form" v-else @submit.prevent="onSubmit">
       <div class="input-field">
@@ -19,7 +21,7 @@
             {{ option.name }}
           </option>
         </select>
-        <label>Выберите категорию</label>
+        <label>{{ $localize('Cat_Choose') }}</label>
       </div>
 
       <p>
@@ -31,7 +33,7 @@
             value="income"
             v-model="type"
           />
-          <span>Доход</span>
+          <span>{{ $localize('Income') }}</span>
         </label>
       </p>
 
@@ -44,7 +46,7 @@
             value="cost"
             v-model="type"
           />
-          <span>Расход</span>
+          <span>{{ $localize('Cost') }}</span>
         </label>
       </p>
 
@@ -55,22 +57,22 @@
           v-model.number="amount"
           :class="{ invalid: v$.amount.$error }"
         />
-        <label for="amount">Сумма</label>
+        <label for="amount">{{ $localize('Amount') }}</label>
         <span
           class="helper-text invalid"
           v-for="error of v$.amount.$errors"
           :key="error.$uid"
-          >Введите сумму</span
+          >{{ $localize('EnterAmount') }}</span
         >
       </div>
 
       <div class="input-field">
         <input id="description" type="text" v-model="description" />
-        <label for="description">Описание</label>
+        <label for="description">{{ $localize('Description') }}</label>
       </div>
 
       <button class="btn waves-effect waves-light" type="submit">
-        Создать
+        {{ $localize('Create') }}
         <i class="material-icons right">send</i>
       </button>
     </form>
@@ -78,57 +80,63 @@
 </template>
 
 <script>
-import { FormSelect, updateTextFields } from "materialize-css";
-import useVuelidate from "@vuelidate/core";
-import { required, minValue } from "@vuelidate/validators";
-import { mapGetters } from "vuex";
+import { FormSelect, updateTextFields } from 'materialize-css'
+import useVuelidate from '@vuelidate/core'
+import { required, minValue } from '@vuelidate/validators'
+import { computed } from 'vue'
+import { mapGetters } from 'vuex'
+import { useHead } from '@vueuse/head'
+import localize from '@/utils/localize'
 
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    useHead({
+      title: computed(() => localize('ProfileTitle'))
+    })
+    return { v$: useVuelidate() }
   },
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "record",
+  name: 'record',
   data: () => ({
     categories: [],
     loading: true,
     select: null,
     category: null,
-    type: "cost",
+    type: 'cost',
     amount: 1,
-    description: "",
+    description: '',
   }),
   validations: {
     amount: { required, minValue: minValue(1), $autoDirty: true },
   },
   async mounted() {
-    this.categories = await this.$store.dispatch("fetchCategories");
-    this.category = this.categories[0].id || null;
-    this.loading = false;
+    this.categories = await this.$store.dispatch('fetchCategories')
+    this.category = this.categories[0].id || null
+    this.loading = false
     //для того, чтобы селект успел появиться на странице после лоадера нужен таймаут
     setTimeout(() => {
-      this.select = FormSelect.init(this.$refs.select);
-      updateTextFields();
-    }, 0);
+      this.select = FormSelect.init(this.$refs.select)
+      updateTextFields()
+    }, 0)
   },
   unmounted() {
     if (this.select && this.select.unmounted) {
-      this.select.unmounted();
+      this.select.unmounted()
     }
   },
   computed: {
-    ...mapGetters(["info"]),
+    ...mapGetters(['info']),
     canCreateRecord() {
-      if (this.type === "income") {
-        return true;
+      if (this.type === 'income') {
+        return true
       }
-      return this.info.bill >= this.amount;
+      return this.info.bill >= this.amount
     },
   },
   methods: {
     async onSubmit() {
-      const isFormCorrect = await this.v$.$validate();
-      if (!isFormCorrect) return;
+      const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect) return
       if (this.canCreateRecord) {
         const formData = {
           date: new Date().toJSON(), //чтобы корректно сохранил firebase
@@ -136,18 +144,18 @@ export default {
           description: this.description,
           categoryId: this.category,
           type: this.type,
-        };
+        }
         try {
-          await this.$store.dispatch("createRecord", formData);
+          await this.$store.dispatch('createRecord', formData)
           const bill =
-            this.type === "income"
+            this.type === 'income'
               ? this.info.bill + this.amount
-              : this.info.bill - this.amount;
-          await this.$store.dispatch("updateInfo", { bill });
-          this.$message(`Запись успешно создана`);
-          this.v$.$reset();
-          this.amount = 1;
-          this.description = "";
+              : this.info.bill - this.amount
+          await this.$store.dispatch('updateInfo', { bill })
+          this.$message(`Запись успешно создана`)
+          this.v$.$reset()
+          this.amount = 1
+          this.description = ''
           // eslint-disable-next-line no-empty
         } catch (e) {}
       } else {
@@ -155,9 +163,9 @@ export default {
           `Недостаточно средств на счете. Не хватает ${
             this.amount - this.info.bill
           }`
-        );
+        )
       }
     },
   },
-};
+}
 </script>

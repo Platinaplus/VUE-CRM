@@ -9,7 +9,7 @@
     >
       <li>
         <a href="#" class="waves-effect waves-orange pointer">
-          {{ link.title }}
+          {{ $localize(link.title) }}
         </a>
       </li>
     </router-link>
@@ -18,15 +18,15 @@
 
 <script>
 export default {
-  props: ["myProps"],
+  props: ['myProps'],
   data: () => ({
     links: [
-      { title: "Счет", url: "/", exact: true },
-      { title: "История", url: "/history" },
-      { title: "Планирование", url: "/planning" },
-      { title: "Новая запись", url: "/record" },
-      { title: "Категории", url: "/categories" },
+      { title: 'Bill', url: '/', exact: true },
+      { title: 'History', url: '/history' },
+      { title: 'Planning', url: '/planning' },
+      { title: 'NewRecord', url: '/record' },
+      { title: 'Categories', url: '/categories' },
     ],
   }),
-};
+}
 </script>

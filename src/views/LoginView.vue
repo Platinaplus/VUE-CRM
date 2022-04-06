@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="onSubmit">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">{{ $localize('AppTitle') }}</span>
       <div class="input-field">
         <input
           id="email"
@@ -29,7 +29,7 @@
           @blur="v$.password.$touch"
           :class="{ invalid: v$.password.$error }"
         />
-        <label for="password">Пароль</label>
+        <label for="password">{{ $localize('Password') }}</label>
         <small
           class="helper-text invalid"
           v-for="error of v$.password.$errors"
@@ -41,30 +41,36 @@
     <div class="card-action">
       <div>
         <button class="btn waves-effect waves-light auth-submit" type="submit">
-          Войти
+          {{ $localize('Enter') }}
           <i class="material-icons right">send</i>
         </button>
       </div>
 
       <p class="center">
-        Нет аккаунта?
-        <router-link to="/register">Зарегистрироваться</router-link>
+        {{ $localize('Login_NoAccount') }}
+        <router-link to="/register">{{ $localize('Register') }}</router-link>
       </p>
     </div>
   </form>
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
-import { email, required, minLength } from "@vuelidate/validators";
-import messages from "../utils/messages";
+import useVuelidate from '@vuelidate/core'
+import { email, required, minLength } from '@vuelidate/validators'
+import { computed } from 'vue'
+import messages from '../utils/messages'
+import { useHead } from '@vueuse/head'
+import localize from '@/utils/localize'
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    useHead({
+      title: computed(() => localize('ProfileTitle'))
+    })
+    return { v$: useVuelidate() }
   },
   data: () => ({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   }),
   validations: {
     email: { required, email, $autoDirty: true },
@@ -72,23 +78,23 @@ export default {
   },
   mounted() {
     if (messages[this.$route.query.message]) {
-      this.$message(messages[this.$route.query.message]);
+      this.$message(messages[this.$route.query.message])
     }
   },
   methods: {
     async onSubmit() {
-      const isFormCorrect = await this.v$.$validate();
-      if (!isFormCorrect) return;
+      const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect) return
       const formData = {
         email: this.email,
         password: this.password,
-      };
+      }
       try {
-        await this.$store.dispatch("login", formData);
-        this.$router.push("/");
+        await this.$store.dispatch('login', formData)
+        this.$router.push('/')
         // eslint-disable-next-line no-empty
       } catch (e) {}
     },
   },
-};
+}
 </script>

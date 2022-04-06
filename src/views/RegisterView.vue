@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="onSubmit">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">{{ $localize('AppTitle') }}</span>
       <div class="input-field">
         <input
           id="email"
@@ -29,7 +29,7 @@
           @blur="v$.password.$touch"
           :class="{ invalid: v$.password.$error }"
         />
-        <label for="password">Пароль</label>
+        <label for="password">{{ $localize('Password') }}</label>
         <small
           class="helper-text invalid"
           v-for="error of v$.password.$errors"
@@ -45,7 +45,7 @@
           @blur="v$.name.$touch"
           :class="{ invalid: v$.name.$error }"
         />
-        <label for="name">Имя</label>
+        <label for="name">{{ $localize('Name') }}</label>
         <small
           class="helper-text invalid"
           v-for="error of v$.name.$errors"
@@ -56,38 +56,43 @@
       <p>
         <label>
           <input type="checkbox" v-model="agree" />
-          <span>С правилами согласен</span>
+          <span>{{ $localize('Agree') }}</span>
         </label>
       </p>
     </div>
     <div class="card-action">
       <div>
         <button class="btn waves-effect waves-light auth-submit" type="submit">
-          Зарегистрироваться
+          {{ $localize('Register') }}
           <i class="material-icons right">send</i>
         </button>
       </div>
 
       <p class="center">
-        Уже есть аккаунт?
-        <router-link to="/login">Войти!</router-link>
+        {{ $localize('HaveAccount') }}
+        <router-link to="/login">{{ $localize('Enter') }}</router-link>
       </p>
     </div>
   </form>
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
-import { email, required, minLength } from "@vuelidate/validators";
-
+import useVuelidate from '@vuelidate/core'
+import { email, required, minLength } from '@vuelidate/validators'
+import { useHead } from '@vueuse/head'
+import { computed } from 'vue'
+import localize from '@/utils/localize'
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    useHead({
+      title: computed(() => localize('ProfileTitle'))
+    })
+    return { v$: useVuelidate() }
   },
   data: () => ({
-    email: "",
-    password: "",
-    name: "",
+    email: '',
+    password: '',
+    name: '',
     agree: false,
   }),
   validations: {
@@ -98,19 +103,19 @@ export default {
   },
   methods: {
     async onSubmit() {
-      const isFormCorrect = await this.v$.$validate();
-      if (!isFormCorrect) return;
+      const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect) return
       const formData = {
         email: this.email,
         password: this.password,
         name: this.name,
-      };
+      }
       try {
-        await this.$store.dispatch("register", formData);
-        this.$router.push("/");
+        await this.$store.dispatch('register', formData)
+        this.$router.push('/')
         // eslint-disable-next-line no-empty
       } catch (e) {}
     },
   },
-};
+}
 </script>

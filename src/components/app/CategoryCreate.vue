@@ -2,7 +2,7 @@
   <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
-        <h4>Создать</h4>
+        <h4>{{$localize('Create')}}</h4>
       </div>
 
       <form @submit.prevent="onSubmit">
@@ -13,12 +13,12 @@
             v-model="name"
             :class="{ invalid: v$.name.$error }"
           />
-          <label for="name">Название</label>
+          <label for="name">{{$localize('Cat_Title')}}</label>
           <span
             class="helper-text invalid"
             v-for="error of v$.name.$errors"
             :key="error.$uid"
-            >Введите название категории</span
+            >{{$localize('Cat_EnterTitle')}}</span
           >
         </div>
 
@@ -29,17 +29,17 @@
             v-model.number="limit"
             :class="{ invalid: v$.limit.$error }"
           />
-          <label for="limit">Лимит</label>
+          <label for="limit">{{$localize('Cat_Limit')}}</label>
           <span
             class="helper-text invalid"
             v-for="error of v$.limit.$errors"
             :key="error.$uid"
-            >{{ `Лимит: ${error.$message}` }}</span
+            >{{ `${$localize('Cat_Limit')}: ${error.$message}` }}</span
           >
         </div>
 
         <button class="btn waves-effect waves-light" type="submit">
-          Создать
+          {{$localize('Create')}}
           <i class="material-icons right">send</i>
         </button>
       </form>

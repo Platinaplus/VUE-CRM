@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Категории</h3>
+      <h3>{{ $localize('Categories') }}</h3>
     </div>
     <section>
       <Loader v-if="loading" />
@@ -13,18 +13,27 @@
           :key="categories.length + updateCount"
           @updated="updateCategories"
         />
-        <p v-else class="center">Категорий пока нет</p>
+        <p v-else class="center">{{ $localize('Cat_Message') }}</p>
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import CategoryCreate from "@/components/app/CategoryCreate.vue";
-import CategoryEdit from "@/components/app/CategoryEdit.vue";
+import CategoryCreate from '@/components/app/CategoryCreate.vue'
+import CategoryEdit from '@/components/app/CategoryEdit.vue'
+import { useHead } from '@vueuse/head'
+import { computed } from 'vue'
+import localize from '@/utils/localize'
+
 export default {
+  setup() {
+    useHead({
+      title: computed(() => localize('ProfileTitle'))
+    })
+  },
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "categories",
+  name: 'categories',
   data: () => ({
     categories: [],
     loading: true,
@@ -35,19 +44,19 @@ export default {
     CategoryEdit,
   },
   async mounted() {
-    this.categories = await this.$store.dispatch("fetchCategories");
-    this.loading = false;
+    this.categories = await this.$store.dispatch('fetchCategories')
+    this.loading = false
   },
   methods: {
     addNewCategory(category) {
-      this.categories.push(category);
+      this.categories.push(category)
     },
     updateCategories({ id, name, limit }) {
-      const idx = this.categories.findIndex((c) => c.id === id);
-      this.categories[idx].name = name;
-      this.categories[idx].limit = limit;
-      this.updateCount++; //для принудительного обновления данных в селекте через :key
+      const idx = this.categories.findIndex((c) => c.id === id)
+      this.categories[idx].name = name
+      this.categories[idx].limit = limit
+      this.updateCount++ //для принудительного обновления данных в селекте через :key
     },
   },
-};
+}
 </script>
