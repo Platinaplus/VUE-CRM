@@ -1,18 +1,15 @@
 <template>
   <ul class="sidenav app-sidenav" :class="{ open: myProps }">
-    <router-link
-      v-for="link in links"
-      :key="link.url"
-      :to="link.url"
-      active-class="active"
-      :exact="link.exact"
-    >
-      <li>
-        <a href="#" class="waves-effect waves-orange pointer">
+      <li v-for="link in links" :key="link.url">
+        <router-link
+          :to="link.url"
+          :exact="link.exact"
+          active-class="active orange"
+          class="pointer"
+        >
           {{ $localize(link.title) }}
-        </a>
+        </router-link>
       </li>
-    </router-link>
   </ul>
 </template>
 

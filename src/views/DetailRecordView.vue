@@ -58,7 +58,6 @@ export default {
       ...record,
       categoryName: category.name,
     };
-    console.log(record);
     this.loading = false;
   },
 };
