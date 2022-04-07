@@ -47,5 +47,8 @@
     "Exceeded": "Exceeded by",
     "Left": "Left",
     "Agree": "I Agree",
-    "HaveAccount": "Allready Have an Account?"
+    "HaveAccount": "Allready Have an Account?",
+    "NeedRegister": "Please Enter or Register",
+    "Logout": "You are logged out",
+    "Success": "was successfuly created"
 }

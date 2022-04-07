@@ -79,7 +79,7 @@ export default {
               (c) => c.id === record.categoryId
             ).name,
             typeClass: record.type === 'cost' ? 'red' : 'green',
-            typeText: record.type === 'cost' ? 'Расход' : 'Доход',
+            typeText: record.type === 'cost' ? localize('Cost') : localize('Income'),
             number: idx,
           }
         }))

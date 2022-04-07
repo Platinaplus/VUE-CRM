@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-catch */
 import firebase from "firebase";
+import router from '@/router'
 
 export default {
   actions: {
@@ -23,15 +24,17 @@ export default {
         await firebase.database().ref(`/users/${uid}/info`).set({
           bill: 10000,
           name,
+          locale: 'en-US'
         });
-        this.$router.push("/");
+        router.push("/");
       } catch (e) {
+        console.log(e);
         commit("setError", e);
         throw e;
       }
     },
-    getUid() {
-      const user = firebase.auth().currentUser;
+    async getUid() {
+      const user = await firebase.auth().currentUser;
       return user ? user.uid : null;
     },
   },

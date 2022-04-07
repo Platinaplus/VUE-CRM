@@ -51,6 +51,7 @@
 import useVuelidate from "@vuelidate/core";
 import { required, minValue } from "@vuelidate/validators";
 import { updateTextFields } from "materialize-css";
+import localize from '@/utils/localize'
 
 export default {
   setup() {
@@ -80,7 +81,7 @@ export default {
         this.name = '';
         this.limit = 1;
         this.v$.$reset();
-        this.$message(`Категория ${category.name} успешно создана`)
+        this.$message(`${localize('Category')} ${category.name} ${localize('Success')}`)
         this.$emit('created', category)
         // eslint-disable-next-line no-empty
       } catch (e) {}
