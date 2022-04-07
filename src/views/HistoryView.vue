@@ -3,10 +3,6 @@
     <div class="page-title">
       <h3>{{ $localize('HistoryRecord') }}</h3>
     </div>
-
-    <div class="history-chart">
-      <Pie :chart-options="chartOptions" :chart-data="chartData" />
-    </div>
     <Loader v-if="loading" />
     <p class="center" v-else-if="!records.length">
       {{ $localize('Record_Message_History') }}
@@ -15,6 +11,9 @@
       }}</router-link>
     </p>
     <section v-else>
+      <div class="history-chart">
+        <Pie :chart-options="chartOptions" :chart-data="chartData" />
+      </div>
       <HistoryTable :records="items" />
       <Pagination
         v-model="page"
@@ -79,7 +78,8 @@ export default {
               (c) => c.id === record.categoryId
             ).name,
             typeClass: record.type === 'cost' ? 'red' : 'green',
-            typeText: record.type === 'cost' ? localize('Cost') : localize('Income'),
+            typeText:
+              record.type === 'cost' ? localize('Cost') : localize('Income'),
             number: idx,
           }
         }))

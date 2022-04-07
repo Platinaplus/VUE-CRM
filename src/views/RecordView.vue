@@ -111,7 +111,7 @@ export default {
   },
   async mounted() {
     this.categories = await this.$store.dispatch('fetchCategories')
-    this.category = this.categories[0].id || null
+    this.category = this.categories.length && this.categories[0].id || null
     this.loading = false
     //для того, чтобы селект успел появиться на странице после лоадера нужен таймаут
     setTimeout(() => {

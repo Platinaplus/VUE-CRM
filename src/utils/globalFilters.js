@@ -31,7 +31,7 @@ export default {
       return new Intl.DateTimeFormat(locale, options).format(new Date(date))
     }
     app.config.globalProperties.$localize = function (key) {
-      const locale = store.getters.info.locale || 'en-US'
+      const locale = store.getters.info && store.getters.info.locale || 'en-US'
       return locales[locale][key] || '[Localize error]: key not found'
     }
     app.config.globalProperties.$message = function (html) {
