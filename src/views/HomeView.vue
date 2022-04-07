@@ -19,36 +19,36 @@
 </template>
 
 <script>
-import HomeBill from "../components/app/HomeBill.vue";
+import HomeBill from '../components/app/HomeBill.vue'
 import { useHead } from '@vueuse/head'
 import { computed } from 'vue'
 import localize from '@/utils/localize'
-import HomeCurrency from "../components/app/HomeCurrency.vue";
+import HomeCurrency from '../components/app/HomeCurrency.vue'
 export default {
-    setup() {
+  setup() {
     useHead({
-      title: computed(() => localize('ProfileTitle'))
+      title: computed(() => localize('ProfileTitle')),
     })
   },
-  name: "HomeView",
+  name: 'HomeView',
   data: () => ({
     loading: true,
-    currency: null,
+    currency: {
+      base: 'EUR',
+      date: new Date().toLocaleDateString('ru-RU'),
+      rates: {
+        EUR: 1,
+        RUB: 84.14171,
+        USD: 1.089209,
+      },
+    },
   }),
   components: {
     HomeBill,
     HomeCurrency,
   },
   async mounted() {
-    this.currency = await this.$store.dispatch("fetchCurrency");
-    this.loading = false;
+    this.loading = false
   },
-  methods: {
-    async refresh() {
-      this.loading = true;
-      this.currency = await this.$store.dispatch("fetchCurrency");
-      this.loading = false;
-    },
-  },
-};
+}
 </script>
