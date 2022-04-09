@@ -10,7 +10,7 @@ const locales = {
 
 export default {
   install(app) {
-    app.config.globalProperties.$formatDate = function (date, format = 'date') {
+    app.config.globalProperties.$formatDate = function formatDate (date, format = 'date') {
       const options = {}
       if (format.includes('date')) {
         options.day = '2-digit'
@@ -41,4 +41,25 @@ export default {
       toast({ html: `[Ошибка]: ${html}` })
     }
   },
+}
+
+export function formatDate (date, format = 'date') {
+  const options = {}
+  if (format.includes('date')) {
+    options.day = '2-digit'
+    options.month = 'long'
+    options.year = 'numeric'
+  }
+  if (format.includes('time')) {
+    options.hour = '2-digit'
+    options.minute = '2-digit'
+    options.second = '2-digit'
+  }
+  if (format.includes('nosecond')) {
+    options.hour = '2-digit'
+    options.minute = '2-digit'
+  }
+
+  const locale = store.getters.info.locale
+  return new Intl.DateTimeFormat(locale, options).format(new Date(date))
 }

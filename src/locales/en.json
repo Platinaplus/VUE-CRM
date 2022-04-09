@@ -25,7 +25,9 @@
     "Record_Message_Add": "Add New Record",
     "Cat_Limit": "Limit",
     "Cat_Edit": "Edit",
-    "Cat_Choose": "Choose a Category",
+    "Cat_Choose": "Select Category",
+    "Cat_Type": "Category Type",
+    "ChooseType": "Choose Type",
     "Amount": "Amount",
     "Date": "Date",
     "Record": "Record",
@@ -50,5 +52,7 @@
     "HaveAccount": "Allready Have an Account?",
     "NeedRegister": "Please Enter or Register",
     "Logout": "You are logged out",
-    "Success": "was successfuly created"
+    "Success": "was successfuly created",
+    "ChangeSuccess": "Category was successfuly changed",
+    "DeleteSuccess": "Category was successfuly deleted"
 }

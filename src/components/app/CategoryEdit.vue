@@ -8,6 +8,7 @@
       <form @submit.prevent="onSubmit">
         <div class="input-field">
           <select ref="select" v-model="current">
+            <option value="" selected disabled>{{ $localize('Cat_Choose') }}</option>
             <option
               v-for="option of options"
               :key="option.id"
@@ -22,11 +23,13 @@
         <div class="input-field">
           <input
             id="name"
+            ref="name"
             type="text"
             v-model="name"
+            @change="changed"
             :class="{ invalid: v$.name.$error }"
           />
-          <label for="name">{{ $localize('Cat_Title') }}</label>
+          <label for="name" :class="{active: current}">{{ $localize('Cat_Title') }}</label>
           <span
             class="helper-text invalid"
             v-for="error of v$.name.$errors"
@@ -35,6 +38,33 @@
           >
         </div>
 
+        <div class="input-field inline">
+          <p>
+            <label>
+              <input
+                class="with-gap"
+                name="type"
+                type="radio"
+                value="income"
+                v-model="catType"
+              />
+              <span>{{ $localize('Income') }}</span>
+            </label>
+          </p>
+
+          <p>
+            <label>
+              <input
+                class="with-gap"
+                name="type"
+                type="radio"
+                value="cost"
+                v-model="catType"
+              />
+              <span>{{ $localize('Cost') }}</span>
+            </label>
+          </p>
+        </div>
         <div class="input-field">
           <input
             id="limit"
@@ -50,11 +80,15 @@
             >{{ `Лимит: ${error.$message}` }}</span
           >
         </div>
-
-        <button class="btn waves-effect waves-light" type="submit">
+        <button class="btn waves-effect waves-light submit" type="submit">
           {{ $localize('Submit') }}
           <i class="material-icons right">send</i>
         </button>
+        <a
+          class="waves-effect waves-light btn-small red"
+          @click.prevent="deleteCategory"
+          ><i class="material-icons right">delete</i>Delete Category</a
+        >
       </form>
     </div>
   </div>
@@ -64,6 +98,7 @@
 import { FormSelect, updateTextFields } from 'materialize-css'
 import useVuelidate from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
+import localize from '@/utils/localize'
 
 export default {
   setup() {
@@ -80,6 +115,7 @@ export default {
     name: '',
     limit: 1,
     current: null,
+    catType: null,
   }),
   validations: {
     name: { required, $autoDirty: true },
@@ -88,26 +124,24 @@ export default {
   watch: {
     //меняет данные в инпутах в зависимости от выбранного селекта
     current(id) {
-      const { name, limit } = this.options.find((c) => c.id === id)
+      const { name, limit, type } = this.options.find((c) => c.id === id)
       this.name = name
       this.limit = limit
       this.current = id
+      this.catType = type
     },
-  },
-  created() {
-    //сразу показывет первую категорию в списке и ее данные
-    const { id, name, limit } = this.options[0]
-    this.name = name
-    this.limit = limit
-    this.current = id
   },
   mounted() {
     updateTextFields()
     this.select = FormSelect.init(this.$refs.select) //селект из материалайза
+    this.catType = FormSelect.init(this.$refs.catType) //селект из материалайза
   },
   unmounted() {
     if (this.select && this.select.unmounted) {
       this.select.unmounted()
+    }
+    if (this.catType && this.catType.unmounted) {
+      this.catType.unmounted()
     }
   },
   methods: {
@@ -118,11 +152,20 @@ export default {
         id: this.current,
         name: this.name,
         limit: this.limit,
+        type: this.catType,
       }
       try {
         await this.$store.dispatch('updateCategory', formData)
-        this.$message(`Категория успешно изменена`)
+        this.$message(localize('ChangeSuccess'))
         this.$emit('updated', formData)
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
+    },
+    async deleteCategory() {
+      try {
+        await this.$store.dispatch('deleteCategory', this.current)
+        this.$message(localize('DeleteSuccess'))
+        this.$emit('deleted', this.current)
         // eslint-disable-next-line no-empty
       } catch (e) {}
     },

@@ -3,7 +3,7 @@
     <div class="page-title">
       <h3>{{ $localize('Bill') }}</h3>
 
-      <button class="btn waves-effect waves-light btn-small" @click="refresh">
+      <button class="btn waves-effect waves-light btn-small" style="display: none" @click="refresh">
         <i class="material-icons">refresh</i>
       </button>
     </div>

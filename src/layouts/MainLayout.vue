@@ -2,7 +2,7 @@
   <Loader v-if="loading" />
   <div v-else class="app-main-layout">
     <Navbar @myClick="isOpen = !isOpen"></Navbar>
-    <Sidebar :myProps="isOpen"></Sidebar>
+    <Sidebar :myProps="isOpen"  @close="closeSidebar"></Sidebar>
 
     <main class="app-content" :class="{ full: !isOpen }">
       <div class="app-page">
@@ -34,7 +34,7 @@ export default {
     Sidebar,
   },
   data: () => ({
-    isOpen: true,
+    isOpen: window.innerWidth >= 500,
     loading: true,
   }),
   async mounted() {
@@ -53,5 +53,10 @@ export default {
       this.$error(messages[fbError.code] || "Что-то пошло не так");
     },
   },
+  methods: {
+    closeSidebar() {
+      this.isOpen = false
+    }
+  }
 };
 </script>

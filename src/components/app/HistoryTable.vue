@@ -4,7 +4,7 @@
       <tr>
         <th>#</th>
         <th>{{ $localize('Amount') }}</th>
-        <th>{{ $localize('Date') }}</th>
+        <th v-if="width">{{ $localize('Date') }}</th>
         <th>{{ $localize('Category') }}</th>
         <th>{{ $localize('History_Type') }}</th>
         <th>{{ $localize('History_Open') }}</th>
@@ -15,7 +15,7 @@
       <tr v-for="(record) of records" :key="record.id">
         <td>{{ record.number + 1 }}</td>
         <td>{{ getCurrency(record.amount) }}</td>
-        <td>{{ $formatDate(record.date, 'datenosecond') }}</td>
+        <td v-if="width">{{ $formatDate(record.date, 'date') }}</td>
         <td>{{ record.categoryName }}</td>
         <td>
           <span class="white-text badge" :class="[record.typeClass]">{{
@@ -44,6 +44,9 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    width: window.innerWidth >= 500
+  }),
   methods: {
     getCurrency(value) {
       return new Intl.NumberFormat("ru-Ru", {

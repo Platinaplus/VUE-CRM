@@ -13,6 +13,7 @@
     <form class="form" v-else @submit.prevent="onSubmit">
       <div class="input-field">
         <select ref="select" v-model="category">
+          <option value="" selected disabled>{{ $localize('Cat_Choose') }}</option>
           <option
             v-for="option of categories"
             :key="option.id"
@@ -102,7 +103,7 @@ export default {
     loading: true,
     select: null,
     category: null,
-    type: 'cost',
+    type: null,
     amount: 1,
     description: '',
   }),
@@ -111,7 +112,7 @@ export default {
   },
   async mounted() {
     this.categories = await this.$store.dispatch('fetchCategories')
-    this.category = this.categories.length && this.categories[0].id || null
+    // this.category = (this.categories.length && this.categories[0].id) || null
     this.loading = false
     //для того, чтобы селект успел появиться на странице после лоадера нужен таймаут
     setTimeout(() => {
@@ -156,6 +157,9 @@ export default {
           this.v$.$reset()
           this.amount = 1
           this.description = ''
+          this.category = null
+          this.type = null
+          this.select = null
           // eslint-disable-next-line no-empty
         } catch (e) {}
       } else {

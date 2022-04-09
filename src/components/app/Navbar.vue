@@ -5,10 +5,10 @@
         <a href="#" @click.prevent="$emit('myClick')">
           <i class="material-icons black-text">dehaze</i>
         </a>
-        <span class="black-text">{{ $formatDate(date, "datetime") }}</span>
+        <span class="black-text">{{ width ? $formatDate(date, "datetime") : $formatDate(date, "date")}}</span>
       </div>
 
-      <ul class="right hide-on-small-and-down">
+      <ul class="right">
         <li>
           <a
             class="dropdown-trigger black-text"
@@ -20,7 +20,7 @@
             <i class="material-icons right">arrow_drop_down</i>
           </a>
 
-          <ul id="dropdown" class="dropdown-content">
+          <ul id="dropdown" class="dropdown-content profile">
             <li>
               <router-link to="/profile" class="black-text">
                 <i class="material-icons">account_circle</i>Профиль
@@ -40,38 +40,38 @@
 </template>
 
 <script>
-import { Dropdown } from "materialize-css/dist/js/materialize";
-
+import { Dropdown } from 'materialize-css/dist/js/materialize'
 export default {
   data: () => ({
     date: new Date(),
     interval: null,
     dropdown: null,
+    width: window.innerWidth >=500
   }),
   methods: {
     async logout() {
-      await this.$store.dispatch("logout");
-      this.$router.push("/login?message=logout");
+      await this.$store.dispatch('logout')
+      this.$router.push('/login?message=logout')
     },
   },
   computed: {
     name() {
-      return this.$store.getters.info.name;
+      return this.$store.getters.info.name
     },
   },
   mounted() {
     this.interval = setInterval(() => {
-      this.date = new Date();
-    }, 1000);
+      this.date = new Date()
+    }, 1000)
     this.dropdown = Dropdown.init(this.$refs.dropdown, {
       constrainWidth: true,
-    });
+    })
   },
   beforeUnmount() {
-    clearInterval(this.interval);
+    clearInterval(this.interval)
     if (this.dropdown && this.dropdown.destroy) {
-      this.dropdown.destroy();
+      this.dropdown.destroy()
     }
   },
-};
+}
 </script>

@@ -59,6 +59,7 @@ export default {
     chartOptions: {
       responsive: true,
     },
+    width: window.innerWidth >= 500,
   }),
   async mounted() {
     this.records = await this.$store.dispatch('fetchRecords')
@@ -92,11 +93,25 @@ export default {
   },
   computed: {
     chartData() {
+      const randomColors = function (q) {
+        if (!q) {
+          return
+        }
+        const colors = []
+        for (let i = 0; i <= q; i++) {
+          colors.push(
+            '#' + (Math.random().toString(16) + '0000000').slice(2, 8)
+          )
+        }
+        return colors
+      }
       return {
-        labels: this.categories.map((c) => c.name),
+        labels: this.categories
+          .filter((c) => c.type === 'cost')
+          .map((c) => c.name),
         datasets: [
           {
-            label: 'Расходы по категориям',
+            label: '',
             data: this.categories.map((c) => {
               return this.records.reduce((total, r) => {
                 if (r.categoryId === c.id && r.type === 'cost') {
@@ -105,22 +120,8 @@ export default {
                 return total
               }, 0)
             }),
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-            ],
+            backgroundColor: randomColors(this.categories.length),
+            borderColor: randomColors(this.categories.length),
             borderWidth: 1,
           },
         ],

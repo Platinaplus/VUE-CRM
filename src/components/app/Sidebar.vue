@@ -1,6 +1,6 @@
 <template>
-  <ul class="sidenav app-sidenav" :class="{ open: myProps }">
-      <li v-for="link in links" :key="link.url">
+  <ul class="sidenav app-sidenav" :class="{ open: myProps, wide: !width }">
+      <li v-for="link in links" :key="link.url" @click="onClick">
         <router-link
           :to="link.url"
           :exact="link.exact"
@@ -24,6 +24,12 @@ export default {
       { title: 'NewRecord', url: '/record' },
       { title: 'Categories', url: '/categories' },
     ],
+    width: window.innerWidth >= 500
   }),
+  methods: {
+    onClick() {
+      this.$emit('close')
+    }
+  }
 }
 </script>
