@@ -10,6 +10,8 @@
     "Bill":"Account",
     "Cost":"Cost",
     "Income":"Income",
+    "Balance":"Balance",
+    "Expenses":"Expenses",
     "History": "History",
     "Description": "Description",
     "Planning": "Planning",
@@ -44,6 +46,7 @@
     "End": "Last",
     "Login_NoAccount": "No Account?",
     "Register": "Register",
+    "Delete": "Delete",
     "Enter": "Enter",
     "From": "from",
     "Exceeded": "Exceeded by",
@@ -54,5 +57,6 @@
     "Logout": "You are logged out",
     "Success": "was successfuly created",
     "ChangeSuccess": "Category was successfuly changed",
-    "DeleteSuccess": "Category was successfuly deleted"
+    "DeleteSuccess": "Category was successfuly deleted",
+    "DeleteRecordSuccess": "Record was successfuly deleted"
 }

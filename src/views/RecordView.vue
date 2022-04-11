@@ -13,7 +13,9 @@
     <form class="form" v-else @submit.prevent="onSubmit">
       <div class="input-field">
         <select ref="select" v-model="category">
-          <option value="" selected disabled>{{ $localize('Cat_Choose') }}</option>
+          <option value="" selected disabled>
+            {{ $localize('Cat_Choose') }}
+          </option>
           <option
             v-for="option of categories"
             :key="option.id"
@@ -120,6 +122,17 @@ export default {
       updateTextFields()
     }, 0)
   },
+  watch: {
+    //меняет данные в инпутах в зависимости от выбранного селекта
+    category(id) {
+      if (!id) {
+        return
+      }
+      const { type } = this.categories.find((c) => c.id === id)
+      this.category = id
+      this.type = type
+    },
+  },
   unmounted() {
     if (this.select && this.select.unmounted) {
       this.select.unmounted()
@@ -159,7 +172,9 @@ export default {
           this.description = ''
           this.category = null
           this.type = null
-          this.select = null
+          setTimeout(() => {
+            updateTextFields()
+          }, 0)
           // eslint-disable-next-line no-empty
         } catch (e) {}
       } else {

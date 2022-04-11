@@ -14,7 +14,11 @@
       <div class="history-chart">
         <Pie :chart-options="chartOptions" :chart-data="chartData" />
       </div>
-      <HistoryTable :records="items" />
+      <HistoryTable
+        :records="items"
+        @deleted="deleteRecord"
+        @sort="sort"
+      />
       <Pagination
         v-model="page"
         :records="pageCount"
@@ -85,6 +89,20 @@ export default {
           }
         }))
       )
+    },
+    sortByField(field, count) {
+      if(count % 2) {
+      return (a, b) => (a[field] > b[field] ? 1 : -1)
+      }
+      return (a, b) => (a[field] < b[field] ? 1 : -1)
+    },
+    deleteRecord(id) {
+      this.records = this.records.filter((r) => r.id != id)
+      this.setup()
+    },
+    sort(field, count) {
+      this.records = this.records.sort(this.sortByField(field, count))
+      this.setup()
     },
   },
   components: {

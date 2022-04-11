@@ -8,7 +8,9 @@
       <form @submit.prevent="onSubmit">
         <div class="input-field">
           <select ref="select" v-model="current">
-            <option value="" selected disabled>{{ $localize('Cat_Choose') }}</option>
+            <option value="" selected disabled>
+              {{ $localize('Cat_Choose') }}
+            </option>
             <option
               v-for="option of options"
               :key="option.id"
@@ -29,7 +31,9 @@
             @change="changed"
             :class="{ invalid: v$.name.$error }"
           />
-          <label for="name" :class="{active: current}">{{ $localize('Cat_Title') }}</label>
+          <label for="name" :class="{ active: current }">{{
+            $localize('Cat_Title')
+          }}</label>
           <span
             class="helper-text invalid"
             v-for="error of v$.name.$errors"
@@ -132,9 +136,11 @@ export default {
     },
   },
   mounted() {
-    updateTextFields()
-    this.select = FormSelect.init(this.$refs.select) //селект из материалайза
-    this.catType = FormSelect.init(this.$refs.catType) //селект из материалайза
+    setTimeout(() => {
+      this.select = FormSelect.init(this.$refs.select) //селект из материалайза
+      this.catType = FormSelect.init(this.$refs.catType) //селект из материалайза
+      updateTextFields()
+    }, 0)
   },
   unmounted() {
     if (this.select && this.select.unmounted) {
