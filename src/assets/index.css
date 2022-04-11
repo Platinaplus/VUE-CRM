@@ -233,7 +233,7 @@ i {
 }
 
 th:not(:first-child) {
-    min-width: 75px;
+    min-width: 85px;
 }
 
 .button-wrapper {
@@ -248,6 +248,11 @@ section {
 
 .sort {
     cursor: pointer;
+}
+
+.label {
+    margin-bottom: 20px;
+    font-size: 18px;
 }
 
 @media(max-width: 500px) {

@@ -26,6 +26,11 @@ export default {
         options.hour = '2-digit'
         options.minute = '2-digit'
       }
+      if(format === 'short') {
+        options.day = '2-digit'
+        options.month = '2-digit'
+        options.year = '2-digit'
+      }
 
       const locale = store.getters.info.locale
       return new Intl.DateTimeFormat(locale, options).format(new Date(date))

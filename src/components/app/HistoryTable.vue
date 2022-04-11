@@ -35,6 +35,7 @@
           <td>{{ record.number + 1 }}</td>
           <td>{{ getCurrency(record.amount) }}</td>
           <td v-if="width">{{ $formatDate(record.date, 'datetime') }}</td>
+          <td v-else>{{ $formatDate(record.date, 'short') }}</td>
           <td>{{ record.categoryName }}</td>
           <td>
             <span class="white-text badge" :class="[record.typeClass]">{{

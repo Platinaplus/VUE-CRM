@@ -26,32 +26,7 @@
         </select>
         <label>{{ $localize('Cat_Choose') }}</label>
       </div>
-
-      <p>
-        <label>
-          <input
-            class="with-gap"
-            name="type"
-            type="radio"
-            value="income"
-            v-model="type"
-          />
-          <span>{{ $localize('Income') }}</span>
-        </label>
-      </p>
-
-      <p>
-        <label>
-          <input
-            class="with-gap"
-            name="type"
-            type="radio"
-            value="cost"
-            v-model="type"
-          />
-          <span>{{ $localize('Cost') }}</span>
-        </label>
-      </p>
+      <div v-if="type" class="label blue-text">{{ $localize('History_Type') }}: {{type}}</div>
 
       <div class="input-field">
         <input

@@ -132,14 +132,14 @@ export default {
             label: '',
             data: this.categories.map((c) => {
               return this.records.reduce((total, r) => {
-                if (r.categoryId === c.id && r.type === 'cost') {
+                if (r.categoryId === c.id && c.type === 'cost') {
                   total += +r.amount
                 }
                 return total
               }, 0)
             }),
             backgroundColor: randomColors(this.categories.length),
-            borderColor: randomColors(this.categories.length),
+            borderColor: ['#fff'],
             borderWidth: 1,
           },
         ],

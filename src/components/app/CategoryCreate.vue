@@ -24,11 +24,19 @@
 
         <div class="input-field">
           <select ref="select" v-model="type">
-            <option value="" disabled selected>{{$localize('ChooseType')}}</option>
-            <option value="cost">{{$localize('Cost')}}</option>
-            <option value="income">{{$localize('Income')}}</option>
+            <option value="" disabled selected>
+              {{ $localize('ChooseType') }}
+            </option>
+            <option value="cost">{{ $localize('Cost') }}</option>
+            <option value="income">{{ $localize('Income') }}</option>
           </select>
-          <label>{{$localize('Cat_Type')}}</label>
+          <label>{{ $localize('Cat_Type') }}</label>
+          <span
+            class="helper-text invalid"
+            v-for="error of v$.type.$errors"
+            :key="error.$uid"
+            >{{ `${$localize('ChooseType')}` }}</span
+          >
         </div>
 
         <div class="input-field">
@@ -74,6 +82,7 @@ export default {
   }),
   validations: {
     name: { required, $autoDirty: true },
+    type: { required, $autoDirty: true },
     limit: { required, minValue: minValue(1), $autoDirty: true },
   },
   mounted() {
@@ -87,7 +96,7 @@ export default {
       const formData = {
         name: this.name,
         limit: this.limit,
-        type: this.type
+        type: this.type,
       }
       try {
         const category = await this.$store.dispatch('createCategory', formData)
