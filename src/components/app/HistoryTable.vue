@@ -4,12 +4,26 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>{{ $localize('Amount') }}</th>
-          <th v-if="width">{{ $localize('Date') }}</th>
-          <th>{{ $localize('Category') }}</th>
-          <th class="type" @click="sort('type')">
+          <th class="sort" @click="sort('amount')">
+            {{ $localize('Amount')
+            }}<i class="tiny material-icons">{{
+              count.amount % 2 ? 'arrow_downward' : 'arrow_upward'
+            }}</i>
+          </th>
+          <th class="sort" @click="sort('date')">
+            {{ $localize('Date')
+            }}<i class="tiny material-icons">{{
+              count.date % 2 ? 'arrow_downward' : 'arrow_upward'
+            }}</i>
+          </th>
+          <th class="sort">
+            {{ $localize('Category') }}
+          </th>
+          <th class="sort" @click="sort('type')">
             {{ $localize('History_Type')
-            }}<i class="tiny material-icons">arrow_downward</i>
+            }}<i class="tiny material-icons">{{
+              count.type % 2 ? 'arrow_downward' : 'arrow_upward'
+            }}</i>
           </th>
           <th>{{ $localize('History_Open') }}</th>
           <th>{{ $localize('Delete') }}</th>
@@ -20,7 +34,7 @@
         <tr v-for="record of records" :key="record.id">
           <td>{{ record.number + 1 }}</td>
           <td>{{ getCurrency(record.amount) }}</td>
-          <td v-if="width">{{ $formatDate(record.date, 'date') }}</td>
+          <td v-if="width">{{ $formatDate(record.date, 'datetime') }}</td>
           <td>{{ record.categoryName }}</td>
           <td>
             <span class="white-text badge" :class="[record.typeClass]">{{
@@ -62,7 +76,12 @@ export default {
   },
   data: () => ({
     width: window.innerWidth >= 500,
-    count: 0,
+    count: {
+      type: 0,
+      amount: 0,
+      date: 0,
+      category: 0,
+    },
   }),
   methods: {
     getCurrency(value) {
@@ -80,8 +99,8 @@ export default {
       } catch (e) {}
     },
     sort(field) {
-      this.count++
-      this.$emit('sort', field, this.count)
+      this.count[field]++
+      this.$emit('sort', field, this.count[field])
     },
   },
 }

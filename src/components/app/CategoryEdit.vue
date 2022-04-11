@@ -84,15 +84,18 @@
             >{{ `Лимит: ${error.$message}` }}</span
           >
         </div>
-        <button class="btn waves-effect waves-light submit" type="submit">
-          {{ $localize('Submit') }}
-          <i class="material-icons right">send</i>
-        </button>
-        <a
-          class="waves-effect waves-light btn-small red"
-          @click.prevent="deleteCategory"
-          ><i class="material-icons right">delete</i>Delete Category</a
-        >
+        <div class="button-wrapper">
+          <button class="btn waves-effect waves-light submit" type="submit">
+            {{ $localize('Submit') }}
+            <i class="material-icons right">send</i>
+          </button>
+          <button
+            class="btn waves-effect waves-light red"
+            @click.prevent="deleteCategory"
+          >
+            <i class="material-icons right">delete</i>{{ $localize('Delete') }}
+          </button>
+        </div>
       </form>
     </div>
   </div>

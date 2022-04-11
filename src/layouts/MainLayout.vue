@@ -2,7 +2,7 @@
   <Loader v-if="loading" />
   <div v-else class="app-main-layout">
     <Navbar @myClick="isOpen = !isOpen"></Navbar>
-    <Sidebar :myProps="isOpen"  @close="closeSidebar"></Sidebar>
+    <Sidebar :myProps="isOpen" @close="closeSidebar"></Sidebar>
 
     <main class="app-content" :class="{ full: !isOpen }">
       <div class="app-page">
@@ -23,12 +23,12 @@
 </template>
 
 <script>
-import Navbar from "@/components/app/Navbar.vue";
-import Sidebar from "@/components/app/Sidebar.vue";
-import messages from "../utils/messages";
+import Navbar from '@/components/app/Navbar.vue'
+import Sidebar from '@/components/app/Sidebar.vue'
+import messages from '../utils/messages'
 
 export default {
-  name: "main-layout",
+  name: 'main-layout',
   components: {
     Navbar,
     Sidebar,
@@ -39,24 +39,24 @@ export default {
   }),
   async mounted() {
     if (!Object.keys(this.$store.getters.info).length) {
-      await this.$store.dispatch("fetchInfo");
+      await this.$store.dispatch('fetchInfo')
     }
-    this.loading = false;
+    this.loading = false
   },
   computed: {
     error() {
-      return this.$store.getters.error;
+      return this.$store.getters.error
     },
   },
   watch: {
     error(fbError) {
-      this.$error(messages[fbError.code] || "Что-то пошло не так");
+      this.$error(messages[fbError.code] || 'Что-то пошло не так')
     },
   },
   methods: {
     closeSidebar() {
-      this.isOpen = false
-    }
-  }
-};
+        this.isOpen = false
+    },
+  },
+}
 </script>
