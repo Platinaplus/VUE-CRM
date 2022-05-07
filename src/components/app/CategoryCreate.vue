@@ -23,7 +23,7 @@
         </div>
 
         <div class="input-field">
-          <select ref="select" v-model="type">
+          <select ref="select" v-model="type" :key="updateCount">
             <option value="" disabled selected>
               {{ $localize('ChooseType') }}
             </option>
@@ -78,7 +78,8 @@ export default {
     name: '',
     limit: 1,
     select: null,
-    type: null
+    type: null,
+    updateCount: 0
   }),
   validations: {
     name: { required, $autoDirty: true },
@@ -108,6 +109,7 @@ export default {
           `${localize('Category')} ${category.name} ${localize('Success')}`
         )
         this.$emit('created', category)
+        this.updateCount++
         // eslint-disable-next-line no-empty
       } catch (e) {}
     },

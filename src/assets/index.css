@@ -243,7 +243,6 @@ th:not(:first-child) {
 
 section {
     margin-bottom: 60px;
-    overflow: hidden;
 }
 
 .sort {

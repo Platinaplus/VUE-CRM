@@ -84,6 +84,9 @@ export default {
       category: 0,
     },
   }),
+  mounted() {
+    // console.log(this.records);
+  },
   methods: {
     getCurrency(value) {
       return new Intl.NumberFormat('ru-Ru', {

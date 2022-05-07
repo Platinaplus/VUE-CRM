@@ -173,6 +173,7 @@ export default {
     async deleteCategory() {
       try {
         await this.$store.dispatch('deleteCategory', this.current)
+        await this.$store.dispatch('deleteRecordsInCategory', this.current)
         this.$message(localize('DeleteSuccess'))
         this.$emit('deleted', this.current)
         // eslint-disable-next-line no-empty
